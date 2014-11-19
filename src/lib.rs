@@ -20,14 +20,14 @@ pub fn parse(path: &Path) -> XmResult<XmModule> {
     let mut buffer = [0u8, ..500];
     let mut file = try!(File::open(path));
     try!(file.read(buffer[mut ..HEADER.len()]));
-    try!(match_constant(buffer[], HEADER));
+    try!(match_constant(&buffer, HEADER));
 
     try!(file.read(buffer[mut ..20]));
     let mut module_name = [0, ..20];
     copy_memory(module_name[mut], buffer[..20]);
 
     try!(file.read(buffer[mut ..1]));
-    try!(match_constant(buffer[], b"\x1A"));
+    try!(match_constant(&buffer, b"\x1A"));
 
     try!(file.read(buffer[mut ..20]));
     let mut tracker_name = [0, ..20];
@@ -35,9 +35,11 @@ pub fn parse(path: &Path) -> XmResult<XmModule> {
 
     // Version check.
     try!(file.read(buffer[mut ..2]));
-    if buffer[..2] != [1,4][] {
+    if buffer[..2] != &[1,4] {
         return Err(XmError::WrongVersion(buffer[0],buffer[1]));
     }
+
+
 
     Ok(XmModule {
         module_name: module_name,
