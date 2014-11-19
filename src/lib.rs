@@ -44,7 +44,3 @@ pub fn parse(path: &Path) -> XmResult<XmModule> {
         tracker_name: tracker_name,
     })
 }
-
-#[test]
-fn it_works() {
-}
