@@ -35,8 +35,8 @@ pub fn parse(path: &Path) -> XmResult<XmModule> {
 
     // Version check.
     try!(file.read(buffer[mut ..2]));
-    if buffer[..2] != &[1,4] {
-        return Err(XmError::WrongVersion(buffer[0],buffer[1]));
+    if buffer[..2] != &[4,1] {
+        return Err(XmError::WrongVersion(buffer[1],buffer[0]));
     }
 
 
